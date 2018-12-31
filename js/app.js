@@ -4,6 +4,37 @@
 let cardPair = []; //cardPair will hold a pair of cards that user is handling for a given turn
 let totalMoves = 0; //total number of moves in the current game
 let totalStars = 5; //initially, user has 5 stars
+let totalSeconds=0; // to keep track of seconds
+let totalMinutes=0; //to keep track of minutes
+let totalHours =0; //to keep track of hours
+let interval = setInterval(displayTimer,1000); //set timer here and get the reference in interval variable to clear the timer later on.
+
+//A function to restart game that resets game data and re-shuffles card
+function restartGame(){
+    //clear the cardPair array and get it ready for the next move
+    while (cardPair.length) { cardPair.pop(); }
+
+    //reset global variables
+    totalMoves = -1;
+    totalStars = 5;
+    totalSeconds=0;
+    totalMinutes=0;
+    totalHours =0;
+
+    //display moves and stars
+    incrementMove();
+
+    //shuffle cards
+    shuffleAndDisplay();
+
+    //display timer as intial call
+    displayTimer();
+
+    //start the timer
+    clearInterval(interval);
+    interval = setInterval(displayTimer,1000);
+}
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -13,7 +44,10 @@ let totalStars = 5; //initially, user has 5 stars
 function shuffleAndDisplay(){
     //get an array of cards using jquery selector
     let cards = $('.deck .card');
-
+    //reset classes from previous game
+    cards.removeClass();
+    cards.addClass('card');
+    
     //pass that array to shuffle method to shuffle it
     cards = shuffle(cards);
 
@@ -21,17 +55,19 @@ function shuffleAndDisplay(){
     renderHTML(cards);
 }
 
+//Call shuffleAndDisplay() on the first page load.
 shuffleAndDisplay();
 
 //A function that takes an array of card elements and render it on screen
 function renderHTML(cards){
     //remove existing li elements from deck
-    $('.deck .card').remove();
+    $('.deck').empty();
 
     //add each elements from shuffled array back to the deck
     cards.each((index, element) => {
         $('.deck').append(element);
     });
+
 }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -83,16 +119,38 @@ $('.deck').on('click',function(event){
 
     //check if player has won and if so display a modal with Congratulations message
     if(checkIfWon()){
+        //clear timer
+        clearInterval(interval);
+        //display modal
         displayCongratulateMessage();
     }
 });
+
+//A function to keep track of time and also to display timer on screen
+displayTimer();
+function displayTimer(){
+    totalSeconds++;
+    if(totalSeconds>=60){
+        totalMinutes++;
+        totalSeconds=0;
+    }
+    if(totalMinutes>=60){
+        totalHours++;
+        totalMinutes=0;
+    }
+    $('.timer span.second').text(totalSeconds);
+    $('.timer span.minute').text(totalMinutes);
+    $('.timer span.hour').text(totalHours);
+
+
+}
 
 /*A function to increment move counter and display it on the page
 A move is considered when user reveals a pair (2 cards) and not when user has revealed just the first card of a pair.
 */
 function incrementMove(){
     totalMoves++;
-    $('span.moves').text(totalMoves);
+    $('span.moves').text(`${totalMoves} Moves`);
     updateStars();
 }
 
@@ -277,4 +335,21 @@ function checkIfWon(){
 //A function to display congratulate message
 function displayCongratulateMessage(){
     console.log("congratulate! you won!");
+    let message1 = `With ${totalMoves} Moves and ${totalStars} Stars!`;
+    let message2 = `Total time taken was ${totalHours} hours, ${totalMinutes} minutes and ${totalSeconds} seconds.`;              
+    let message3 = `Woooooo!`;
+    $('.result-msg-1').text(message1);
+    $('.result-msg-2').text(message2);
+    $('.result-msg-3').text(message3);
+
+    $('.modal').css('display','block');
 }
+
+//A click listener for play again button on modal screen
+$('.restart').on('click',function(){
+    console.log('restart');
+    restartGame();
+    //close the modal
+    $('.modal').css('display','none');
+
+});
