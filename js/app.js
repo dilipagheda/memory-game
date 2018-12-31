@@ -1,5 +1,5 @@
 /*
- * Global variables
+ * Global variables and initial function calls
  */
 let cardPair = []; //cardPair will hold a pair of cards that user is handling for a given turn
 let totalMoves = 0; //total number of moves in the current game
@@ -8,6 +8,8 @@ let totalSeconds=0; // to keep track of seconds
 let totalMinutes=0; //to keep track of minutes
 let totalHours =0; //to keep track of hours
 let interval = setInterval(displayTimer,1000); //set timer here and get the reference in interval variable to clear the timer later on.
+//Call shuffleAndDisplay() on the first page load.
+shuffleAndDisplay();
 
 //A function to restart game that resets game data and re-shuffles card
 function restartGame(){
@@ -54,9 +56,6 @@ function shuffleAndDisplay(){
     //pass the shuffled array to renderHTML method to render it on screen
     renderHTML(cards);
 }
-
-//Call shuffleAndDisplay() on the first page load.
-shuffleAndDisplay();
 
 //A function that takes an array of card elements and render it on screen
 function renderHTML(cards){
@@ -138,14 +137,15 @@ function displayTimer(){
         totalHours++;
         totalMinutes=0;
     }
+
+    //Update screen elements with values
     $('.timer span.second').text(totalSeconds);
     $('.timer span.minute').text(totalMinutes);
     $('.timer span.hour').text(totalHours);
-
-
 }
 
-/*A function to increment move counter and display it on the page
+/*
+A function to increment move counter and display it on the page
 A move is considered when user reveals a pair (2 cards) and not when user has revealed just the first card of a pair.
 */
 function incrementMove(){
@@ -154,7 +154,8 @@ function incrementMove(){
     updateStars();
 }
 
-/*A function to update the starts based on total number of moves
+/*
+ A function to update the starts based on total number of moves
  
  In best case, user will only take 8 moves to reveal all 8 pairs. However, that is not realistic so let's double that
  for 5 star rating. (16 moves or less is 5 stars)
@@ -232,7 +233,6 @@ function removeNotAllowedOnCards(){
 
 //A function to hide cards 
 function hideCards(card1,card2){
-
     card1.removeClass();
     card2.removeClass();
     setNotAllowedOnCards();
@@ -281,7 +281,7 @@ function unmatchCards(card1,card2){
     },1000);
 }
 
-
+//A function to check if a card was matched or not
 function checkForMatch(card){
     if(cardPair.length === 0){
         cardPair.push(card);
@@ -302,7 +302,6 @@ function checkForMatch(card){
          }
 
          if(totalClassesMatched===2){
-             console.log("match");
              matchCards(firstCard,secondCard);
          }else{
             unmatchCards(firstCard,secondCard);
@@ -334,10 +333,11 @@ function checkIfWon(){
 
 //A function to display congratulate message
 function displayCongratulateMessage(){
-    console.log("congratulate! you won!");
+    //prepare the message variables with values
     let message1 = `With ${totalMoves} Moves and ${totalStars} Stars!`;
     let message2 = `Total time taken was ${totalHours} hours, ${totalMinutes} minutes and ${totalSeconds} seconds.`;              
     let message3 = `Woooooo!`;
+    //display values to screen elements
     $('.result-msg-1').text(message1);
     $('.result-msg-2').text(message2);
     $('.result-msg-3').text(message3);
@@ -345,11 +345,10 @@ function displayCongratulateMessage(){
     $('.modal').css('display','block');
 }
 
-//A click listener for play again button on modal screen
+//A click listener for play again button on modal screen and refresh button on screen
 $('.restart').on('click',function(){
     console.log('restart');
     restartGame();
     //close the modal
     $('.modal').css('display','none');
-
 });
