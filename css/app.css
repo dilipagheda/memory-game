@@ -22,10 +22,9 @@ body {
 }
 
 body {
-    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    background: #ffffff url('../img/geometry2.png');
+    /* Background pattern from Subtle Patterns */
     font-family: 'Audiowide', cursive;
-
-
 }
 
 .container {
@@ -47,15 +46,15 @@ h1 {
 
 .deck {
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
     border-radius: 10px;
     box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
-    display:grid;
+    display: grid;
     grid-column-gap: 20px;
     grid-row-gap: 20px;
     grid-template-columns: auto auto;
-    padding:32px;
+    padding: 32px;
 
 }
 
@@ -89,12 +88,12 @@ h1 {
     font-size: 33px;
 }
 
-.no-match{
+.no-match {
     background: red !important;
     cursor: default;
 }
 
-.not-allowed{
+.not-allowed {
     cursor: not-allowed !important;
 }
 
@@ -109,8 +108,8 @@ h1 {
 }
 
 .timer {
-    margin:10px;
-    padding:10px;
+    margin: 10px;
+    padding: 10px;
 
 }
 
@@ -137,36 +136,38 @@ h1 {
 .modal {
     text-align: center;
 }
-.modal-content{
+
+.modal-content {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 .modal-header {
     width: 100%;
-    margin:auto;
+    margin: auto;
 }
 
 /*
 responsive css for tablet and desktop
 */
 
-@media (min-width:768px){
+@media (min-width:768px) {
     .deck {
-        display:grid;
+        display: grid;
         grid-column-gap: 30px;
         grid-row-gap: 30px;
         grid-template-columns: auto auto auto auto;
-        padding:32px;
+        padding: 32px;
     }
 }
 
 @media (min-width:1024px) {
     .deck {
-        display:grid;
+        display: grid;
         grid-column-gap: 40px;
         grid-row-gap: 40px;
         grid-template-columns: auto auto auto auto;
-        padding:32px;
+        padding: 32px;
     }
 }
