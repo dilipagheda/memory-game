@@ -1,4 +1,6 @@
-# Memory Game Project
+# Memory Game - A Frontend Project!!
+
+This project is live at http://dilipagheda.com/memory-game/. Enjoy the game!
 
 ## About the project
 This project is a browser based card matching game that has cool animations, game logic and engaging interactions. It is done using jQuery and JavaScript with bit of help from Bootstrap, Animate.css and FontAwesome library. It also supports mobile first responsive design where layout adapts based on screensize. It achieves this through Grid layout and media queries.
